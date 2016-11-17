@@ -66,7 +66,7 @@ namespace MvcWebApiTest.Controllers
 
             StreamReader sreader = new StreamReader(streamResponse);//reads the data stream
             Rstring = sreader.ReadToEnd();//reads it to the end
-            String Links = GetContent(Rstring);//gets the links only
+            String Links = GetImages(Rstring);//gets the links only
 
             streamResponse.Close();
             sreader.Close();
@@ -80,19 +80,23 @@ namespace MvcWebApiTest.Controllers
         }
 
 
-        private String GetContent(String Rstring)
+        private String GetImages(String Rstring)
         {
             String sString = "";
             HtmlDocument d = new HtmlDocument();
+            List<string> images = new List<string>();
 
             d.LoadHtml(Rstring);
 
             foreach(HtmlNode img in d.DocumentNode.Descendants().Where(n => n.Name == "img")) {
 
-                sString += img.OuterHtml;
-                sString += "/n";
+                images.Add(img.OuterHtml);
 
             }
+
+
+
+
 
             return sString;
         }
